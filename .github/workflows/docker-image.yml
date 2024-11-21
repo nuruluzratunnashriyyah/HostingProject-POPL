@@ -28,7 +28,7 @@ jobs:
     # 4. Build Docker Image
     - name: Build Docker Image
       run: |
-        docker build -t alhusnaahanifah/hostingproject:newest .
+        docker build -t alhusnaahanifah/hostingproject:newest
 
     # 5. Jalankan container untuk testing
     - name: Run Docker Container
