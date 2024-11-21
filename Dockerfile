@@ -1,20 +1,29 @@
-# Gunakan image Node.js versi LTS
-FROM node:16
+# Base image untuk Node.js
+FROM node:18 AS build
 
 # Set working directory
 WORKDIR /app
 
-# Salin package.json dan package-lock.json
+# Copy file package.json dan package-lock.json
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Salin semua file proyek ke dalam container
+# Copy seluruh kode
 COPY . .
 
-# Expose port Vite (default: 5173)
-EXPOSE 5173
+# Build aplikasi menggunakan Vite
+RUN npm run build
 
-# Jalankan server development
-CMD ["npm", "run", "dev", "--", "--host"]
+# Gunakan Nginx untuk menyajikan file hasil build
+FROM nginx:stable-alpine
+
+# Copy file hasil build ke direktori Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
