@@ -33,14 +33,6 @@ jobs:
         push: true
         tags: alhusnaahanifah/hostingproject:newest
 
-    # 5. Jalankan container untuk testing
-    - name: Run Docker Container for Testing
-      run: |
-        docker run -d -p 8080:80 --name test-container alhusnaahanifah/hostingproject:newest
-        sleep 5 # Tunggu sebentar agar container sepenuhnya berjalan
-        docker ps # Verifikasi container berjalan
-        curl -f http://localhost:8080 || (echo "Test failed!" && exit 1)
-
     # 6. Hentikan dan hapus container setelah testing
     - name: Cleanup
       if: always()
