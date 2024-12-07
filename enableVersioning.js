@@ -3,7 +3,7 @@
  */
 
 // Uncomment and replace with your bucket name
-// const bucketName = 'your-unique-bucket-name';
+const bucketName = 'my-popl-project';
 
 const { Storage } = require('@google-cloud/storage');
 const storage = new Storage();
