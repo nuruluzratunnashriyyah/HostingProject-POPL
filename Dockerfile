@@ -22,6 +22,15 @@ FROM nginx:stable-alpine
 # Copy file hasil build ke direktori Nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Copy script Node.js (jika perlu dijalankan dalam container ini)
+COPY --from=build /app/enableVersioning.js /app/
+
+# Install Node.js runtime untuk script tambahan
+RUN apk add --no-cache nodejs npm
+
+# Jalankan script Google Cloud Storage sebelum Nginx
+RUN node /app/enableVersioning.js
+
 # Expose port 80
 EXPOSE 80
 
